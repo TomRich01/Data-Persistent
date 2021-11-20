@@ -60,6 +60,7 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
+            SaveData();
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -91,11 +92,11 @@ public class MainManager : MonoBehaviour
     {
         Highscore.Score myscore = new Highscore.Score();
         myscore.name = Highscore.Instance.nameOfPlayer;
-        if (myscore.score >= m_Points)
+        if (myscore.score <= m_Points)
         {
             myscore.score = firstScore;
         }
-        else if(myscore.score < m_Points)
+        if(myscore.score < m_Points)
         {
             myscore.score = m_Points;
             string json = JsonUtility.ToJson(myscore);
@@ -112,8 +113,8 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
-
-        SaveData();
+        
+        
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
