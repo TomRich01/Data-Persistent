@@ -73,26 +73,6 @@ public class MainManager : MonoBehaviour
         ScoreText.text = $"Score : {m_Points}";
     }
 
-    public void SaveData()
-    {
-        Highscore.Score myscore = new Highscore.Score();
-        myscore.name = Highscore.Instance.nameOfPlayer;
-        if (myscore.score > m_Points)
-        {
-            myscore.score = firstScore;
-        }
-        else
-        {
-            myscore.score = m_Points;
-           
-        }
-       
-
-        string json = JsonUtility.ToJson(myscore);
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
-
-    }
-
     public void LoadData()
     {
         string path = Application.persistentDataPath + "/savefile.json";
@@ -106,6 +86,29 @@ public class MainManager : MonoBehaviour
 
         }
     }
+
+    public void SaveData()
+    {
+        Highscore.Score myscore = new Highscore.Score();
+        myscore.name = Highscore.Instance.nameOfPlayer;
+        if (myscore.score >= m_Points)
+        {
+            myscore.score = firstScore;
+        }
+        else if(myscore.score < m_Points)
+        {
+            myscore.score = m_Points;
+            string json = JsonUtility.ToJson(myscore);
+            File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+
+        }
+       
+
+       
+
+    }
+
+   
 
     public void GameOver()
     {
